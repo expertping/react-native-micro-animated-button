@@ -12,7 +12,7 @@ type button = {
   bounce?: boolean,          // default = false
   errorColor: string,        // default = red
   errorIconColor?: string,   // default = white
-  errorIconName: string,     // from FontAwesome
+  errorIconName: string,
   foregroundColor?: string,  // default = black
   iconSize?: number,         // default = 17
   label: string,
@@ -22,12 +22,12 @@ type button = {
   onError?: Function,        // default = () => null
   onPress?: Function,        // default = () => null
   onSuccess?: Function,      // default = () => null
-  renderIcon?: any,          // default = null
-  renderIndicator?: any,     // default = null
+  renderIcon?: any,          // default = <FontAwesome />
+  renderIndicator?: any,     // default = <ActivityIndicator />
   style?: Object,            // default = defaultStyle
   successColor?: string,     // default = green
   successIconColor?: string, // default = white
-  successIconName: string    // from FontAwesome
+  successIconName: string
 };
 
 const defaultStyle = {
@@ -121,5 +121,5 @@ const Example2 = () => (
   </View>
 );
 
-export { Example1, Example 2 };
+export { Example1, Example2 };
 ```
