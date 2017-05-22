@@ -15,6 +15,7 @@ export default class Button extends Component {
   state = { step: 0, error: false };
 
   animated = new Animated.Value(0);
+  micro = new Animated.Value(0);
 
   successBackgroundColor = this.animated.interpolate({
     inputRange: [0, 1, 2],
@@ -43,8 +44,19 @@ export default class Button extends Component {
     ]
   });
 
+  translateX = this.micro.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, 10, -10]
+  });
+
+  scale = this.micro.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, this.props.scaleFactor || 1.5]
+  });
+
   press = () => {
     this.setState({ step: 1 });
+
     Animated.spring(this.animated, { toValue: 1 }).start(animation => {
       if (animation.finished && this.props.onPress) this.props.onPress();
     });
@@ -52,16 +64,31 @@ export default class Button extends Component {
 
   success = () => {
     this.setState({ step: 2 });
+
     Animated.spring(this.animated, { toValue: 2 }).start(animation => {
       if (animation.finished && this.props.onSuccess) this.props.onSuccess();
     });
+
+    if (this.props.scaleOnSuccess)
+      Animated.sequence([
+        Animated.timing(this.micro, { toValue: 1, duration: 80 }),
+        Animated.timing(this.micro, { toValue: 0, duration: 80 })
+      ]).start();
   };
 
   error = () => {
     this.setState({ step: 2, error: true });
+
     Animated.spring(this.animated, { toValue: 2 }).start(animation => {
       if (animation.finished && this.props.onError) this.props.onError();
     });
+
+    if (this.props.shakeOnError)
+      Animated.sequence([
+        Animated.timing(this.micro, { toValue: 0, duration: 40 }),
+        Animated.timing(this.micro, { toValue: 2, duration: 40 }),
+        Animated.timing(this.micro, { toValue: 0, duration: 40 })
+      ]).start();
   };
 
   render() {
@@ -82,6 +109,11 @@ export default class Button extends Component {
               : this.props.foregroundColor || 'black',
             flex: 0,
             justifyContent: 'center',
+            transform: [
+              this.state.error
+                ? { translateX: this.translateX }
+                : { scale: this.scale }
+            ],
             width: this.width
           },
           styles.button,

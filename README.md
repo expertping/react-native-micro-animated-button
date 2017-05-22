@@ -1,6 +1,6 @@
 # react-native-micro-animated-button
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo1.gif" width="400">
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo2.gif" width="400">
+<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo1.gif" width="200"> <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo2.gif" width="200"> <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo3.gif" width="200">
+
 
 # Installation
 `yarn add react-native-micro-animated-button`
@@ -24,6 +24,9 @@ type button = {
   onSuccess?: Function,      // default = () => null
   renderIcon?: any,          // default = <FontAwesome />
   renderIndicator?: any,     // default = <ActivityIndicator />
+  scaleFactor?: number,      // default = 1.5
+  scaleOnSuccess?: boolean,  // default = false
+  shakeOnError?: boolean,    // default = false
   style?: Object,            // default = defaultStyle
   successColor?: string,     // default = green
   successIconColor?: string, // default = white
@@ -121,5 +124,35 @@ const Example2 = () => (
   </View>
 );
 
-export { Example1, Example2 };
+const Example3 = () => (
+  <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+    <Button
+      backgroundColor="#4285f4"
+      bounce
+      errorColor="#db4437"
+      errorIconName="warning"
+      foregroundColor="#fff"
+      label="Simulate an error"
+      onPress={() => this.b1.error()}
+      ref={ref => (this.b1 = ref)}
+      shakeOnError
+      style={{ borderRadius: 0 }}
+    />
+
+    <Button
+      backgroundColor="#4285f4"
+      bounce
+      foregroundColor="#fff"
+      label="Smile at me"
+      onPress={() => this.b2.success()}
+      ref={ref => (this.b2 = ref)}
+      scaleOnSuccess
+      style={{ borderRadius: 0 }}
+      successColor="#0f9d58"
+      successIconName="smile-o"
+    />
+  </View>
+);
+
+export { Example1, Example2, Example3 };
 ```
