@@ -1,6 +1,7 @@
 # react-native-micro-animated-button
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo1.gif" width="200"> <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo2.gif" width="200"> <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo3.gif" width="200">
-
+<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo1.gif" width="400">
+<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo2.gif" width="400">
+<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo3.gif" width="400">
 
 # Installation
 `yarn add react-native-micro-animated-button`
