@@ -2,6 +2,7 @@
 <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo1.gif" width="400">
 <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo2.gif" width="400">
 <img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo3.gif" width="400">
+<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo4.gif" width="400">
 
 # Installation
 `yarn add react-native-micro-animated-button`
@@ -9,28 +10,33 @@
 # Definition
 ```javascript
 type button = {
-  backgroundColor?: string,  // default = white
-  bounce?: boolean,          // default = false
-  errorColor: string,        // default = red
-  errorIconColor?: string,   // default = white
+  activeOpacity?: number,           // default = 1
+  backgroundColor?: string,         // default = white
+  bounce?: boolean,                 // default = false
+  disabled?: boolean,               // default = false
+  disabledBackgroundColor: string,  // default = gray
+  disabledBforegroundColor: string, // default = white
+  errorColor: string,               // default = red
+  errorIconColor?: string,          // default = white
   errorIconName: string,
-  foregroundColor?: string,  // default = black
-  iconSize?: number,         // default = 17
+  foregroundColor?: string,         // default = black
+  iconSize?: number,                // default = 17
   label: string,
-  labelStyle?: Object,       // default = defaultLabelStyle
-  maxWidth?: number,         // default = 240
-  minWidth?: number,         // default = 40
-  onError?: Function,        // default = () => null
-  onPress?: Function,        // default = () => null
-  onSuccess?: Function,      // default = () => null
-  renderIcon?: any,          // default = <FontAwesome />
-  renderIndicator?: any,     // default = <ActivityIndicator />
-  scaleFactor?: number,      // default = 1.5
-  scaleOnSuccess?: boolean,  // default = false
-  shakeOnError?: boolean,    // default = false
-  style?: Object,            // default = defaultStyle
-  successColor?: string,     // default = green
-  successIconColor?: string, // default = white
+  labelStyle?: Object,              // default = defaultLabelStyle
+  maxWidth?: number,                // default = 240
+  minWidth?: number,                // default = 40
+  onError?: Function,               // default = () => null
+  onPress?: Function,               // default = () => null
+  onSuccess?: Function,             // default = () => null
+  renderIcon?: any,                 // default = <FontAwesome />
+  renderIndicator?: any,            // default = <ActivityIndicator />
+  scaleFactor?: number,             // default = 1.5
+  scaleOnSuccess?: boolean,         // default = false
+  shakeOnError?: boolean,           // default = false
+  static?: boolean,                 // default = false
+  style?: Object,                   // default = defaultStyle
+  successColor?: string,            // default = green
+  successIconColor?: string,        // default = white
   successIconName: string
 };
 
@@ -155,5 +161,27 @@ const Example3 = () => (
   </View>
 );
 
-export { Example1, Example2, Example3 };
+const Example4 = () => (
+  <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+    <Button
+      disabled
+      disabledBackgroundColor="#d8d8d8"
+      disabledForegroundColor="#fff"
+      label="Disabled Button"
+      style={{ borderRadius: 0 }}
+    />
+
+    <Button
+      activeOpacity={0.2}
+      backgroundColor="#4285f4"
+      foregroundColor="#fff"
+      label="Static Button"
+      onPress={() => alert('You clicked me!')}
+      static
+      style={{ borderRadius: 0 }}
+    />
+  </View>
+);
+
+export { Example1, Example2, Example3, Example4 };
 ```

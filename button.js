@@ -55,11 +55,15 @@ export default class Button extends Component {
   });
 
   press = () => {
-    this.setState({ step: 1 });
+    if (this.props.static) {
+      if (this.props.onPress) this.props.onPress();
+    } else {
+      this.setState({ step: 1 });
 
-    Animated.spring(this.animated, { toValue: 1 }).start(animation => {
-      if (animation.finished && this.props.onPress) this.props.onPress();
-    });
+      Animated.spring(this.animated, { toValue: 1 }).start(animation => {
+        if (animation.finished && this.props.onPress) this.props.onPress();
+      });
+    }
   };
 
   success = () => {
@@ -97,16 +101,22 @@ export default class Button extends Component {
         style={[
           {
             alignItems: 'center',
-            backgroundColor: this.state.error
-              ? this.errorBbackgroundColor
-              : this.successBackgroundColor,
-            borderColor: this.state.step === 2
-              ? this.state.error
-                  ? this.props.errorColor || this.props.foregroundColor || 'red'
-                  : this.props.successColor ||
-                      this.props.foregroundColor ||
-                      'green'
-              : this.props.foregroundColor || 'black',
+            backgroundColor: this.props.disabled
+              ? this.props.disabledBackgroundColor || 'gray'
+              : this.state.error
+                  ? this.errorBbackgroundColor
+                  : this.successBackgroundColor,
+            borderColor: this.props.disabled
+              ? this.props.disabledBackgroundColor || 'gray'
+              : this.state.step === 2
+                  ? this.state.error
+                      ? this.props.errorColor ||
+                          this.props.foregroundColor ||
+                          'red'
+                      : this.props.successColor ||
+                          this.props.foregroundColor ||
+                          'green'
+                  : this.props.foregroundColor || 'black',
             flex: 0,
             justifyContent: 'center',
             transform: [
@@ -122,7 +132,11 @@ export default class Button extends Component {
         {this.state.step === 0 &&
           <Text
             style={[
-              { color: this.props.foregroundColor || 'black' },
+              {
+                color: this.props.disabled
+                  ? this.props.disabledForegroundColor || 'white'
+                  : this.props.foregroundColor || 'black'
+              },
               styles.label,
               this.props.labelStyle
             ]}>
@@ -153,15 +167,17 @@ export default class Button extends Component {
 
     if (this.props.bounce)
       return (
-        <TouchableBounce disabled={this.state.step !== 0} onPress={this.press}>
+        <TouchableBounce
+          disabled={this.state.step !== 0 || this.props.disabled}
+          onPress={this.press}>
           {button}
         </TouchableBounce>
       );
 
     return (
       <TouchableOpacity
-        activeOpacity={1}
-        disabled={this.state.step !== 0}
+        activeOpacity={this.props.activeOpacity || 1}
+        disabled={this.state.step !== 0 || this.props.disabled}
         onPress={this.press}>
         {button}
       </TouchableOpacity>
