@@ -1,8 +1,5 @@
 # react-native-micro-animated-button
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo1.gif" width="400">
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo2.gif" width="400">
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo3.gif" width="400">
-<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo4.gif" width="400">
+<img src="https://raw.githubusercontent.com/sonaye/react-native-micro-animated-button/master/demo.gif" width="400">
 
 # Installation
 `yarn add react-native-micro-animated-button`
@@ -22,11 +19,15 @@ type button = {
   foregroundColor?: string,         // default = black
   iconSize?: number,                // default = 17
   label: string,
+  labelIcon?: string,               // default = <FontAwesome />
   labelStyle?: Object,              // default = defaultLabelStyle
   maxWidth?: number,                // default = 240
   minWidth?: number,                // default = 40
+  noFill?: boolean,                 // default = false
   onError?: Function,               // default = () => null
   onPress?: Function,               // default = () => null
+  onReset?: Function,               // default = () => null
+  onSecondaryPress?: Function,      // default = () => null
   onSuccess?: Function,             // default = () => null
   renderIcon?: any,                 // default = <FontAwesome />
   renderIndicator?: any,            // default = <ActivityIndicator />
@@ -51,20 +52,33 @@ const defaultStyle = {
 const defaultLabelStyle = {
   padding: 9
 };
+
+// Methods
+button.error();   // Animates button to error state
+button.reset();   // Animates button to initial/default state
+button.success(); // Animates button to success state
 ```
 
 ## Examples
 ```javascript
-import React from 'react';
-import { View } from 'react-native';
+import React, { Component } from 'react';
+import { LayoutAnimation, StatusBar, Text, View } from 'react-native';
 
 import Button from 'react-native-micro-animated-button';
 
+const colors = {
+  blue: '#007AFF',
+  gray: '#C7C7CC',
+  green: '#4CD964',
+  red: '#FF3B30',
+  white: '#FFFFFF'
+};
+
 const Example1 = () => (
-  <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+  <View style={{ alignItems: 'center' }}>
     <Button
       bounce
-      foregroundColor="#0f9d58"
+      foregroundColor={colors.green}
       label="Submit"
       onPress={() => this.b1.success()}
       ref={ref => (this.b1 = ref)}
@@ -73,7 +87,7 @@ const Example1 = () => (
 
     <Button
       bounce
-      foregroundColor="#4285f4"
+      foregroundColor={colors.blue}
       label="Retweet"
       onPress={() => this.b2.success()}
       ref={ref => (this.b2 = ref)}
@@ -82,7 +96,7 @@ const Example1 = () => (
 
     <Button
       bounce
-      foregroundColor="#db4437"
+      foregroundColor={colors.red}
       label="Favorite"
       onPress={() => this.b3.success()}
       ref={ref => (this.b3 = ref)}
@@ -92,96 +106,144 @@ const Example1 = () => (
 );
 
 const Example2 = () => (
-  <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+  <View style={{ alignItems: 'center' }}>
     <Button
       bounce
-      errorColor="#db4437"
+      errorColor={colors.red}
       errorIconName="thumbs-down"
-      foregroundColor="#9e9e9e"
+      foregroundColor={colors.gray}
       label="Am I even?"
-      onPress={() => new Date().getSeconds() % 2 === 0 ? this.b1.success() : this.b1.error()}
-      ref={ref => (this.b1 = ref)}
-      successColor="#0f9d58"
+      onPress={() =>
+        new Date().getSeconds() % 2 === 0 ? this.b4.success() : this.b4.error()}
+      ref={ref => (this.b4 = ref)}
+      successColor={colors.green}
       successIconName="thumbs-up"
     />
 
     <Button
       bounce
-      errorColor="#db4437"
+      errorColor={colors.red}
       errorIconName="thumbs-down"
-      foregroundColor="#9e9e9e"
+      foregroundColor={colors.gray}
       label="Am I even?"
-      onPress={() => new Date().getSeconds() % 2 === 0 ? this.b2.success() : this.b2.error()}
-      ref={ref => (this.b2 = ref)}
-      successColor="#0f9d58"
-      successIconName="thumbs-up"
-    />
-
-    <Button
-      bounce
-      errorColor="#db4437"
-      errorIconName="thumbs-down"
-      foregroundColor="#9e9e9e"
-      label="Am I even?"
-      onPress={() => new Date().getSeconds() % 2 === 0 ? this.b3.success() : this.b3.error()}
-      ref={ref => (this.b3 = ref)}
-      successColor="#0f9d58"
+      onPress={() =>
+        new Date().getSeconds() % 2 === 0 ? this.b5.success() : this.b5.error()}
+      ref={ref => (this.b5 = ref)}
+      successColor={colors.green}
       successIconName="thumbs-up"
     />
   </View>
 );
 
 const Example3 = () => (
-  <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+  <View style={{ alignItems: 'center' }}>
     <Button
-      backgroundColor="#4285f4"
+      backgroundColor={colors.blue}
       bounce
-      errorColor="#db4437"
+      errorColor={colors.red}
       errorIconName="warning"
-      foregroundColor="#fff"
+      foregroundColor={colors.white}
       label="Simulate an error"
-      onPress={() => this.b1.error()}
-      ref={ref => (this.b1 = ref)}
+      onPress={() => this.b6.error()}
+      ref={ref => (this.b6 = ref)}
       shakeOnError
       style={{ borderRadius: 0 }}
     />
 
     <Button
-      backgroundColor="#4285f4"
+      backgroundColor={colors.blue}
       bounce
-      foregroundColor="#fff"
+      foregroundColor={colors.white}
       label="Smile at me"
-      onPress={() => this.b2.success()}
-      ref={ref => (this.b2 = ref)}
+      onPress={() => this.b7.success()}
+      ref={ref => (this.b7 = ref)}
       scaleOnSuccess
       style={{ borderRadius: 0 }}
-      successColor="#0f9d58"
+      successColor={colors.green}
       successIconName="smile-o"
     />
   </View>
 );
 
 const Example4 = () => (
-  <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+  <View style={{ alignItems: 'center' }}>
     <Button
       disabled
-      disabledBackgroundColor="#d8d8d8"
-      disabledForegroundColor="#fff"
+      disabledBackgroundColor={colors.gray}
+      disabledForegroundColor={colors.white}
       label="Disabled Button"
       style={{ borderRadius: 0 }}
     />
 
     <Button
-      activeOpacity={0.2}
-      backgroundColor="#4285f4"
-      foregroundColor="#fff"
+      activeOpacity={0.5}
+      backgroundColor={colors.blue}
+      foregroundColor={colors.white}
       label="Static Button"
-      onPress={() => alert('You clicked me!')}
+      onPress={() => null}
       static
       style={{ borderRadius: 0 }}
     />
   </View>
 );
 
-export { Example1, Example2, Example3, Example4 };
+class Example5 extends Component {
+  state = { show: false };
+
+  componentWillMount() {
+    StatusBar.setHidden(true, 'fade');
+  }
+
+  componentWillUpdate() {
+    LayoutAnimation.spring();
+  }
+
+  render() {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          flexDirection: 'row',
+          justifyContent: 'center'
+        }}>
+        <Button
+          activeOpacity={0.5}
+          foregroundColor={colors.blue}
+          labelIcon="cloud-download"
+          noFill
+          onPress={() => {
+            this.b8.success();
+            this.setState({ show: true });
+          }}
+          onSecondaryPress={() => {
+            this.b8.reset();
+            this.setState({ show: false });
+          }}
+          ref={ref => (this.b8 = ref)}
+          style={{ borderRadius: 0 }}
+          successColor={colors.blue}
+          successIconColor={colors.blue}
+          successIconName="remove"
+        />
+
+        {this.state.show &&
+          <Text style={{ color: colors.blue, marginLeft: 10 }}>
+            I just got downloaded.
+          </Text>}
+      </View>
+    );
+  }
+}
+
+const Examples = () => (
+  <View style={{ flex: 1, justifyContent: 'center' }}>
+    <Example1 />
+    <Example2 />
+    <Example3 />
+    <Example4 />
+    <Example5 />
+  </View>
+);
+
+export default Examples;
 ```

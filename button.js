@@ -3,7 +3,8 @@ import {
   ActivityIndicator,
   Animated,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 import TouchableBounce
@@ -95,6 +96,14 @@ export default class Button extends Component {
       ]).start();
   };
 
+  reset = () => {
+    this.setState({ step: 0 });
+
+    Animated.spring(this.animated, { toValue: 0 }).start(animation => {
+      if (animation.finished && this.props.onReset) this.props.onReset();
+    });
+  };
+
   render() {
     const button = (
       <Animated.View
@@ -103,9 +112,11 @@ export default class Button extends Component {
             alignItems: 'center',
             backgroundColor: this.props.disabled
               ? this.props.disabledBackgroundColor || 'gray'
-              : this.state.error
-                  ? this.errorBbackgroundColor
-                  : this.successBackgroundColor,
+              : this.props.noFill
+                  ? this.props.backgroundColor || 'white'
+                  : this.state.error
+                      ? this.errorBbackgroundColor
+                      : this.successBackgroundColor,
             borderColor: this.props.disabled
               ? this.props.disabledBackgroundColor || 'gray'
               : this.state.step === 2
@@ -130,18 +141,30 @@ export default class Button extends Component {
           this.props.style
         ]}>
         {this.state.step === 0 &&
-          <Text
-            style={[
-              {
-                color: this.props.disabled
-                  ? this.props.disabledForegroundColor || 'white'
-                  : this.props.foregroundColor || 'black'
-              },
-              styles.label,
-              this.props.labelStyle
-            ]}>
-            {this.props.label}
-          </Text>}
+          <View>
+            {this.props.labelIcon
+              ? <FontAwesome
+                  color={
+                    this.props.disabled
+                      ? this.props.disabledForegroundColor || 'white'
+                      : this.props.foregroundColor || 'black'
+                  }
+                  name={this.props.labelIcon}
+                  size={this.props.iconSize || 17}
+                />
+              : <Text
+                  style={[
+                    {
+                      color: this.props.disabled
+                        ? this.props.disabledForegroundColor || 'white'
+                        : this.props.foregroundColor || 'black'
+                    },
+                    styles.label,
+                    this.props.labelStyle
+                  ]}>
+                  {this.props.label}
+                </Text>}
+          </View>}
         {this.state.step === 1 &&
           (this.props.renderIndicator ||
             <ActivityIndicator
@@ -168,8 +191,13 @@ export default class Button extends Component {
     if (this.props.bounce)
       return (
         <TouchableBounce
-          disabled={this.state.step !== 0 || this.props.disabled}
-          onPress={this.press}>
+          disabled={
+            (this.state.step !== 0 && !this.props.onSecondaryPress) ||
+              this.props.disabled
+          }
+          onPress={
+            (this.state.step !== 0 && this.props.onSecondaryPress) || this.press
+          }>
           {button}
         </TouchableBounce>
       );
@@ -177,8 +205,13 @@ export default class Button extends Component {
     return (
       <TouchableOpacity
         activeOpacity={this.props.activeOpacity || 1}
-        disabled={this.state.step !== 0 || this.props.disabled}
-        onPress={this.press}>
+        disabled={
+          (this.state.step !== 0 && !this.props.onSecondaryPress) ||
+            this.props.disabled
+        }
+        onPress={
+          (this.state.step !== 0 && this.props.onSecondaryPress) || this.press
+        }>
         {button}
       </TouchableOpacity>
     );
