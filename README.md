@@ -12,7 +12,7 @@ type button = {
   bounce?: boolean,                 // default = false
   disabled?: boolean,               // default = false
   disabledBackgroundColor: string,  // default = gray
-  disabledBforegroundColor: string, // default = white
+  disabledForegroundColor: string,  // default = white
   errorColor: string,               // default = red
   errorIconColor?: string,          // default = white
   errorIconName: string,
