@@ -45,14 +45,14 @@ export default class Button extends Component {
     ]
   });
 
-  translateX = this.micro.interpolate({
+  shake = this.micro.interpolate({
     inputRange: [0, 1, 2],
     outputRange: [0, 10, -10]
   });
 
   scale = this.micro.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, this.props.scaleFactor || 1.5]
+    outputRange: [1, this.props.scaleFactor || 1.1]
   });
 
   press = () => {
@@ -132,7 +132,7 @@ export default class Button extends Component {
             justifyContent: 'center',
             transform: [
               this.state.error
-                ? { translateX: this.translateX }
+                ? { translateX: this.shake }
                 : { scale: this.scale }
             ],
             width: this.width
@@ -188,33 +188,17 @@ export default class Button extends Component {
       </Animated.View>
     );
 
-    if (this.props.bounce)
-      return (
-        <TouchableBounce
-          disabled={
-            (this.state.step !== 0 && !this.props.onSecondaryPress) ||
-              this.props.disabled
-          }
-          onPress={
-            (this.state.step !== 0 && this.props.onSecondaryPress) || this.press
-          }>
-          {button}
-        </TouchableBounce>
-      );
+    const props = {
+      disabled: (this.state.step !== 0 && !this.props.onSecondaryPress) ||
+        this.props.disabled,
+      onPress: (this.state.step !== 0 && this.props.onSecondaryPress) ||
+        this.press,
+      children: button
+    };
 
-    return (
-      <TouchableOpacity
-        activeOpacity={this.props.activeOpacity || 1}
-        disabled={
-          (this.state.step !== 0 && !this.props.onSecondaryPress) ||
-            this.props.disabled
-        }
-        onPress={
-          (this.state.step !== 0 && this.props.onSecondaryPress) || this.press
-        }>
-        {button}
-      </TouchableOpacity>
-    );
+    if (this.props.bounce) return <TouchableBounce {...props} />;
+
+    return <TouchableOpacity {...props} />;
   }
 }
 

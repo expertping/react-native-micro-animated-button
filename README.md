@@ -31,7 +31,7 @@ type button = {
   onSuccess?: Function,             // default = () => null
   renderIcon?: any,                 // default = <FontAwesome />
   renderIndicator?: any,            // default = <ActivityIndicator />
-  scaleFactor?: number,             // default = 1.5
+  scaleFactor?: number,             // default = 1.1
   scaleOnSuccess?: boolean,         // default = false
   shakeOnError?: boolean,           // default = false
   static?: boolean,                 // default = false
@@ -64,14 +64,15 @@ button.success(); // Animates button to success state
 import React, { Component } from 'react';
 import { LayoutAnimation, StatusBar, Text, View } from 'react-native';
 
+import ActivityIndicator from 'react-native-activity-indicator'; // optional
 import Button from 'react-native-micro-animated-button';
 
 const colors = {
-  blue: '#007AFF',
-  gray: '#C7C7CC',
-  green: '#4CD964',
-  red: '#FF3B30',
-  white: '#FFFFFF'
+  blue: 'blue',
+  gray: 'gray',
+  green: 'green',
+  red: 'red',
+  white: 'white'
 };
 
 const Example1 = () => (
@@ -82,6 +83,7 @@ const Example1 = () => (
       label="Submit"
       onPress={() => this.b1.success()}
       ref={ref => (this.b1 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.green} />}
       successIconName="check"
     />
 
@@ -91,6 +93,7 @@ const Example1 = () => (
       label="Retweet"
       onPress={() => this.b2.success()}
       ref={ref => (this.b2 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.blue} />}
       successIconName="retweet"
     />
 
@@ -100,6 +103,7 @@ const Example1 = () => (
       label="Favorite"
       onPress={() => this.b3.success()}
       ref={ref => (this.b3 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.red} />}
       successIconName="heart"
     />
   </View>
@@ -116,6 +120,7 @@ const Example2 = () => (
       onPress={() =>
         new Date().getSeconds() % 2 === 0 ? this.b4.success() : this.b4.error()}
       ref={ref => (this.b4 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.gray} />}
       successColor={colors.green}
       successIconName="thumbs-up"
     />
@@ -129,6 +134,7 @@ const Example2 = () => (
       onPress={() =>
         new Date().getSeconds() % 2 === 0 ? this.b5.success() : this.b5.error()}
       ref={ref => (this.b5 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.gray} />}
       successColor={colors.green}
       successIconName="thumbs-up"
     />
@@ -146,6 +152,7 @@ const Example3 = () => (
       label="Simulate an error"
       onPress={() => this.b6.error()}
       ref={ref => (this.b6 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.white} />}
       shakeOnError
       style={{ borderRadius: 0 }}
     />
@@ -157,6 +164,7 @@ const Example3 = () => (
       label="Smile at me"
       onPress={() => this.b7.success()}
       ref={ref => (this.b7 = ref)}
+      renderIndicator={<ActivityIndicator color={colors.white} />}
       scaleOnSuccess
       style={{ borderRadius: 0 }}
       successColor={colors.green}
@@ -220,6 +228,7 @@ class Example5 extends Component {
             this.setState({ show: false });
           }}
           ref={ref => (this.b8 = ref)}
+          renderIndicator={<ActivityIndicator color={colors.blue} />}
           style={{ borderRadius: 0 }}
           successColor={colors.blue}
           successIconColor={colors.blue}
