@@ -68,10 +68,11 @@ import ActivityIndicator from 'react-native-activity-indicator'; // optional
 import Button from 'react-native-micro-animated-button';
 
 const colors = {
-  blue: 'blue',
-  gray: 'gray',
-  green: 'green',
-  red: 'red',
+  blue: '#4285f4',
+  gray: '#d8d8d8',
+  grayDark: '#444',
+  green: '#0f9d58',
+  red: '#db4437',
   white: 'white'
 };
 
@@ -115,12 +116,12 @@ const Example2 = () => (
       bounce
       errorColor={colors.red}
       errorIconName="thumbs-down"
-      foregroundColor={colors.gray}
+      foregroundColor={colors.grayDark}
       label="Am I even?"
       onPress={() =>
         new Date().getSeconds() % 2 === 0 ? this.b4.success() : this.b4.error()}
       ref={ref => (this.b4 = ref)}
-      renderIndicator={<ActivityIndicator color={colors.gray} />}
+      renderIndicator={<ActivityIndicator color={colors.grayDark} />}
       successColor={colors.green}
       successIconName="thumbs-up"
     />
@@ -129,12 +130,12 @@ const Example2 = () => (
       bounce
       errorColor={colors.red}
       errorIconName="thumbs-down"
-      foregroundColor={colors.gray}
+      foregroundColor={colors.grayDark}
       label="Am I even?"
       onPress={() =>
         new Date().getSeconds() % 2 === 0 ? this.b5.success() : this.b5.error()}
       ref={ref => (this.b5 = ref)}
-      renderIndicator={<ActivityIndicator color={colors.gray} />}
+      renderIndicator={<ActivityIndicator color={colors.grayDark} />}
       successColor={colors.green}
       successIconName="thumbs-up"
     />
